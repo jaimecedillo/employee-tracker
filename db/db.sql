@@ -1,4 +1,4 @@
-DROP DATABASE IF IT EXISTS employeeData;
+DROP DATABASE IF EXISTS employeeData;
 
 CREATE DATABASE employeeData;
 
