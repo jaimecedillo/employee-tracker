@@ -1,0 +1,24 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "Employee Data Tracker",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaimecedillo/employee-tracker.git"
+  },
+  "author": "Jaime Cedillo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jaimecedillo/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/jaimecedillo/employee-tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^8.0.0"
+  }
+}
