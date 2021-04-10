@@ -1,0 +1,1 @@
+DROP DATABASE IF IT EXISTS employeeData;
