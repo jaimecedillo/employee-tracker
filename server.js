@@ -85,8 +85,11 @@ function addDepartment() {
     })
         .then(answer => {
 
-            db.query(`INSERT INTO department SET ?`, (answer.department), (err, roles) => {
+            db.query(`INSERT INTO department (name) VALUES (?)`, (answer.department), (err, roles) => {
                 console.log(`Department ${answer.department} has been added!`)
+            })
+            db.query(`SELECT * FROM department`, (err, res) => {
+                console.table(res)
                 startApp();
             })
         })
@@ -114,6 +117,9 @@ function addRole() {
                 name: 'salary',
                 message: 'Enter salary for this position',
             }
+
+
+
         ])
 
             .then(answer => {
