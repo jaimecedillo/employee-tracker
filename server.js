@@ -22,10 +22,10 @@ db.connect(function (err) {
 
 const startApp = () => {
     inquirer.prompt({
-        name: 'start',
         type: 'list',
+        name: 'start',
         message: 'What would you like to do?',
-        choices: ['View all employees', 'View all roles', 'View all Departments', 'Add a role', 'Add an Employee', 'Add Department', 'Manage employee roles', 'quit']
+        choices: ['View all employees', 'View all roles', 'View all Departments', 'Add a role', 'Add an Employee', 'Add Department', 'Manage employee roles', 'Quit']
     })
         .then(answer => {
             switch (answer.start) {
@@ -79,40 +79,53 @@ function viewAllRoles() {
 
 function addDepartment() {
     inquirer.prompt({
-        name: 'department',
         type: 'input',
+        name: 'department',
         message: 'Write the department you would like to add.',
     })
         .then(answer => {
 
             db.query(`INSERT INTO department SET ?`, (answer.department), (err, roles) => {
-                console.log('Department has been added!')
+                console.log(`Department ${answer.department} has been added!`)
                 startApp();
             })
         })
 };
 
-function addRole(); {
+function addRole() {
     db.query(`SELECT * FROM department`, (err, departments) => {
         const departmentChoices = departments.map((department) => {
             return { name: department.name, value: department.id }
         })
         inquirer.prompt([
             {
-                name: 'role',
                 type: 'input',
+                name: 'role',
                 message: 'Write the role you would like to add.',
             },
             {
-                name: 'roleanddpt',
                 type: 'list',
+                name: 'department',
                 message: 'Which department is this role associated with?',
                 choices: departmentChoices
-            }
+            },
+            {
+                type: 'input',
+                name: 'salary',
+                message: 'Enter salary for this position',
+            },
         ])
-    })
 
-}
+            .then(answer => {
+                db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ? , select id from department where name = ?))`, (answer.role, answer.salary, answer.department), (err, res) => {
+
+                    console.log(`New role ${answer.role} has been added`);
+                    startApp();
+                })
+            });
+    })
+};
+
 
 
 
