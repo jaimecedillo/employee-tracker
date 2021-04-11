@@ -113,19 +113,60 @@ function addRole() {
                 type: 'input',
                 name: 'salary',
                 message: 'Enter salary for this position',
-            },
+            }
         ])
 
             .then(answer => {
-                db.query(`INSERT INTO role (title, salary, department_id) VALUES (?, ? , select id from department where name = ?))`, (answer.role, answer.salary, answer.department), (err, res) => {
-
+                const sql = `INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`;
+                const params = [answer.role, answer.salary, answer.department];
+                db.query(sql, params, (err, res) => {
                     console.log(`New role ${answer.role} has been added`);
+                })
+                db.query(`SELECT * FROM role`, (err, roles) => {
+                    console.table(roles)
                     startApp();
                 })
-            });
+            })
     })
 };
 
+
+function addEmployee() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first',
+            message: 'First name?',
+        },
+        {
+            type: 'input',
+            name: 'last',
+            message: 'Last Name?',
+        },
+        {
+            type: 'input',
+            name: 'roleid',
+            message: 'Role id number?',
+        },
+        {
+            type: 'input',
+            name: 'manager',
+            message: "What is the manager's id?",
+        }
+    ])
+        .then(answer => {
+            const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id)
+            VALUES (?,?,?,?)`;
+            const params = [answer.first, answer.last, answer.roleid, answer.manager];
+            db.query(sql, params, (err, rest) => {
+                console.log(`${answer.first} ${answer.last} has been added`);
+            })
+            db.query(`SELECT * FROM employee`, (err, employees) => {
+                console.table(employees)
+                startApp();
+            })
+        })
+}
 
 
 
