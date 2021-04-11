@@ -20,6 +20,7 @@ db.connect(function (err) {
     // console.log('Conected db')
 })
 
+// app start function
 const startApp = () => {
     inquirer.prompt({
         type: 'list',
@@ -55,28 +56,28 @@ const startApp = () => {
             }
         })
 }
-
+// view employee table function
 function viewAllEmployees() {
     db.query(`SELECT * FROM employee`, (err, employees) => {
         console.table(employees)
         startApp();
     });
 }
-
+// view departments table function
 function viewAllDepartments() {
     db.query(`SELECT * FROM department`, (err, departments) => {
         console.table(departments)
         startApp();
     });
 }
-
+// view roles table function
 function viewAllRoles() {
     db.query(`SELECT * FROM role`, (err, roles) => {
         console.table(roles)
         startApp();
     });
 }
-
+// add department function
 function addDepartment() {
     inquirer.prompt({
         type: 'input',
@@ -94,7 +95,7 @@ function addDepartment() {
             })
         })
 };
-
+// add role function
 function addRole() {
     db.query(`SELECT * FROM department`, (err, departments) => {
         const departmentChoices = departments.map((department) => {
@@ -135,7 +136,7 @@ function addRole() {
     })
 };
 
-
+// add new employee function
 function addEmployee() {
     inquirer.prompt([
         {
@@ -172,7 +173,7 @@ function addEmployee() {
             })
         })
 }
-
+// update employee's role function
 function manageRole() {
     inquirer.prompt([
         {
@@ -204,5 +205,5 @@ function manageRole() {
             })
         });
 };
-
+// start application
 startApp();
