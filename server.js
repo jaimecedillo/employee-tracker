@@ -12,7 +12,7 @@ const db = mysql.createConnection(
         password: '',
         database: 'employeeData'
     },
-    console.log('Connected to the election database.')
+    console.log('Connected to the employeeData database.')
 );
 
 db.connect(function (err) {
@@ -121,7 +121,6 @@ function addRole() {
 
 
         ])
-
             .then(answer => {
                 const sql = `INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`;
                 const params = [answer.role, answer.salary, answer.department];
@@ -174,6 +173,36 @@ function addEmployee() {
         })
 }
 
+function manageRole() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'first',
+            message: 'Employee first name?',
+        },
+        {
+            type: 'input',
+            name: 'last',
+            message: 'Employee last Name?',
+        },
+        {
+            type: 'input',
+            name: 'newrole',
+            message: 'New role id number?',
+        },
 
+    ])
+        .then(answer => {
+            const sql = `UPDATE employee SET role_id = ? WHERE first_name = ? AND last_name = ?`;
+            const params = [answer.newrole, answer.first, answer.last];
+            db.query(sql, params, (err, rest) => {
+                console.log(`${answer.first} ${answer.last}'s role has been updated`);
+            })
+            db.query(`SELECT * FROM employee`, (err, employees) => {
+                console.table(employees)
+                startApp();
+            })
+        });
+};
 
 startApp();
